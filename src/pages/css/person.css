@@ -1,0 +1,46 @@
+.profile-list {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: calc(4 * 300px + 3 * 32px);
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 16px 0;
+  background: #fafafa;
+  width: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.profile-card img {
+  width: auto;
+  height: 200px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.profile-card .profile-info {
+  flex: 1;
+}
+.profile-card .profile-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.profile-card .profile-role {
+  color: #666;
+  font-size: 0.95em;
+  margin-bottom: 8px;
+}
+
+.gjengen-header {
+  text-align: center;
+  margin: 32px auto 16px auto;
+  font-size: 2em;
+  font-weight: bold;
+  width: 100%;
+}
