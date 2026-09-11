@@ -1,0 +1,38 @@
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.event-card {
+  text-align: left;
+}
+
+.event-card h3 {
+  margin: 8px 0 4px;
+}
+
+.event-date {
+  font-weight: bold;
+  color: var(--accent);
+  font-size: 14px;
+  font-family: var(--heading);
+}
+
+.event-location {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.past-event {
+  opacity: 0.7;
+  background: #f5f5f0;
+}
+
+.past-event h3::after {
+  content: ' (gjennomført)';
+  font-size: 14px;
+  color: #999;
+  font-weight: normal;
+}

@@ -1,0 +1,126 @@
+.navbar {
+  color: #000000;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  margin: 0;
+  background: linear-gradient(to bottom, #f5edd8, #e8dcc0);
+  border-bottom: 3px ridge var(--border);
+  position: relative;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-right: 30px;
+}
+
+.logo img {
+  height: 60px;
+  width: auto;
+  vertical-align: middle;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.nav-links li {
+  display: inline-block;
+  margin: 0 4px;
+  border-left: 2px solid var(--border);
+  padding-left: 10px;
+}
+
+.nav-links li:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.nav-links a {
+  color: var(--text-h);
+  text-decoration: none;
+  font-size: 0.9em;
+  font-family: var(--heading);
+  padding: 4px 6px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: 2px outset var(--border);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px 10px;
+  color: var(--text-h);
+  margin-left: auto;
+}
+
+.hamburger:hover {
+  background: var(--accent-bg);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #f5edd8;
+    border-bottom: 3px ridge var(--border);
+    padding: 12px 20px;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    border-left: none;
+    border-bottom: 1px dotted var(--border);
+    padding: 8px 0;
+    margin: 0;
+  }
+
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+}
+
+.user-info {
+  color: var(--accent);
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: 0.9em;
+  padding: 0;
+}
+
+.logout-btn:hover {
+  color: var(--accent-dark, #c41e3a);
+}

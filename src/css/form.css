@@ -1,0 +1,77 @@
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #f5f5f5;
+    border: 2px ridge var(--border);
+    border-radius: 8px;
+}
+
+.form-container h1 {
+    text-align: center;
+    color: var(--accent);
+    margin-bottom: 24px;
+}
+
+.member-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.member-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.member-form label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-h);
+}
+
+.member-form input,
+.member-form textarea,
+.member-form select {
+    padding: 10px;
+    border: 2px outset var(--border);
+    background: white;
+    font-size: 16px;
+    font-family: inherit;
+    border-radius: 4px;
+}
+
+.member-form input:focus,
+.member-form textarea:focus,
+.member-form select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+}
+
+.member-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.member-form button {
+    padding: 12px 24px;
+    background: var(--accent);
+    color: white;
+    border: 2px outset var(--border);
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.member-form button:hover:not(:disabled) {
+    background: var(--accent-dark, #c41e3a);
+}
+
+.member-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

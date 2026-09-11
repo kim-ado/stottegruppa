@@ -1,0 +1,93 @@
+.hero-section {
+  padding: 16px 0;
+}
+
+.hero-cross {
+  width: 100px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.hero-tagline {
+  font-size: 22px;
+  font-style: italic;
+  color: var(--accent);
+  font-family: var(--heading);
+}
+
+.welcome-section {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.welcome-section p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.verse-section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.daily-verse {
+  background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  padding: 20px 24px;
+  text-align: left;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.daily-verse cite {
+  display: block;
+  text-align: right;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--accent);
+  font-style: normal;
+}
+
+.quick-links {
+  padding: 16px 0 32px;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.link-card {
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  transition: transform 0.2s;
+  padding: 20px 16px;
+  border: 2px ridge var(--border);
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0;
+}
+
+.link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: none !important;
+}
+
+.link-card h3 {
+  color: var(--accent);
+  margin: 0 0 8px 0;
+}
+
+.link-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text);
+}
