@@ -13,7 +13,7 @@ const Navbar = () => {
             <Link to="/" className="logo">
                 <img src="/images/cross.png" alt="Logo" />
             </Link>
-
+    
             <button
                 className="hamburger"
                 onClick={() => setMenuOpen(!menuOpen)}

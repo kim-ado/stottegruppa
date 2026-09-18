@@ -31,27 +31,7 @@ const Home = () => (
 
     <hr className="section-divider" />
 
-    <section className="quick-links">
-      <h2>Utforsk siden vår</h2>
-      <div className="links-grid">
-        <a href="/om-oss" className="link-card">
-          <h3>Om oss</h3>
-          <p>Møt gjengen bak støttegruppa</p>
-        </a>
-        <a href="/gallery" className="link-card">
-          <h3>Galleri</h3>
-          <p>Bilder fra livet vårt sammen</p>
-        </a>
-        <a href="/sitater" className="link-card">
-          <h3>Sitater</h3>
-          <p>Inspirerende ord og vers</p>
-        </a>
-        <a href="/arrangementer" className="link-card">
-          <h3>Arrangementer</h3>
-          <p>Hva skjer fremover?</p>
-        </a>
-      </div>
-    </section>
+
   </div>
 );
 
