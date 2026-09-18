@@ -1,87 +1,93 @@
-/**
- * Authentication Middleware Scaffolding
- * TODO: Implement these middleware functions
- */
+import type { NextFunction, Request, Response } from 'express';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
+import { hasAccess, type AccessLevel } from '../../access-control';
+import { jwtSecret } from '../config/env';
 
-/**
- * Verify JWT token from httpOnly cookie
- * - Extract token from cookie
- * - Verify token signature using JWT_SECRET
- * - Check token expiration
- * - Decode and attach user info to request
- * - Call next() or return 401 error
- */
-export const authenticateToken = (req, res, next) => {
-    // TODO: Implement
-    // const token = req.cookies.authToken;
-    // if (!token) return res.status(401).json({ error: 'No token provided' });
-    // try {
-    //   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    //   req.user = decoded;
-    //   next();
-    // } catch (error) {
-    //   res.status(403).json({ error: 'Invalid token' });
-    // }
+export interface AuthenticatedUser {
+    id: string;
+    username: string;
+    email: string;
+    isMember: boolean;
+    role: string;
+}
+
+export type AuthenticatedRequest = Request & {
+    user?: AuthenticatedUser;
+    cookies?: Record<string, string>;
 };
 
-/**
- * Check if user is a member
- * - Requires authenticateToken middleware
- * - Verify user.isMember is true
- * - Call next() or return 403 error
- */
-export const requireMember = (req, res, next) => {
-    // TODO: Implement
-    // if (!req.user.isMember) {
-    //   return res.status(403).json({ error: 'Member access required' });
-    // }
-    // next();
+const isJwtPayload = (value: string | JwtPayload): value is JwtPayload => (
+    typeof value !== 'string' && typeof value.id === 'string' && typeof value.username === 'string'
+);
+
+export const authenticateToken = (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+): void => {
+    const token = req.cookies?.authToken;
+    if (!token) {
+        res.status(401).json({ error: 'Authentication required' });
+        return;
+    }
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        if (!isJwtPayload(decoded)) {
+            res.status(401).json({ error: 'Invalid token' });
+            return;
+        }
+
+        req.user = {
+            id: decoded.id,
+            username: decoded.username,
+            email: typeof decoded.email === 'string' ? decoded.email : '',
+            isMember: decoded.isMember === true,
+            role: typeof decoded.role === 'string' ? decoded.role : 'user',
+        };
+        next();
+    } catch {
+        res.status(401).json({ error: 'Invalid or expired token' });
+    }
 };
 
-/**
- * Check if user is admin
- * - Requires authenticateToken middleware
- * - Verify user.role is 'admin'
- * - Call next() or return 403 error
- */
-export const requireAdmin = (req, res, next) => {
-    // TODO: Implement
-    // if (req.user.role !== 'admin') {
-    //   return res.status(403).json({ error: 'Admin access required' });
-    // }
-    // next();
+export const requireAccess = (requirement: AccessLevel) => (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+): void => {
+    if (!hasAccess(req.user, requirement)) {
+        res.status(403).json({ error: `${requirement} access required` });
+        return;
+    }
+
+    next();
 };
 
-/**
- * Global error handler middleware
- * - Log error details
- * - Return appropriate status code and message
- * - Don't expose sensitive error details in production
- */
-export const errorHandler = (err, req, res, next) => {
-    // TODO: Implement
-    // console.error('Error:', err);
-    // const status = err.status || 500;
-    // const message = process.env.NODE_ENV === 'production' 
-    //   ? 'Internal server error' 
-    //   : err.message;
-    // res.status(status).json({ error: message });
+export const requireMember = requireAccess('member');
+
+export const requireAdmin = (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction,
+): void => {
+    if (req.user?.role !== 'admin') {
+        res.status(403).json({ error: 'Admin access required' });
+        return;
+    }
+
+    next();
 };
 
-/**
- * Validation middleware
- * - Validate request body against schema
- * - Return 400 if validation fails
- * - Call next() if valid
- */
-export const validateRequest = (schema) => {
-    return (req, res, next) => {
-        // TODO: Implement with joi or zod
-        // const { error, value } = schema.validate(req.body);
-        // if (error) {
-        //   return res.status(400).json({ error: error.details });
-        // }
-        // req.body = value;
-        // next();
-    };
+export const errorHandler = (
+    error: Error & { status?: number },
+    _req: Request,
+    res: Response,
+    _next: NextFunction,
+): void => {
+    void _next;
+    console.error(error);
+    res.status(error.status || 500).json({
+        error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message,
+    });
 };

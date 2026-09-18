@@ -23,7 +23,19 @@ export interface GalleryImage {
     title: string;
     uploadedBy: string;
     uploadedAt: string;
+    galleryId?: string;
     category?: string;
+}
+
+export interface GalleryAlbum {
+    id: string;
+    slug?: string;
+    title: string;
+    description?: string;
+    images: GalleryImage[];
+    createdBy?: string;
+    createdAt?: string;
+    isBuiltIn?: boolean;
 }
 
 export interface Event {

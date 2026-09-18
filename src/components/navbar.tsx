@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { ACCESS_REQUIREMENTS, hasAccess } from '../../access-control';
 import '../css/navbar.css';
 
 const Navbar = () => {
@@ -30,10 +31,13 @@ const Navbar = () => {
                 <li><Link to="/merch" onClick={() => setMenuOpen(false)}>Merch</Link></li>
                 <li><Link to="/kontakt" onClick={() => setMenuOpen(false)}>Kontakt</Link></li>
                 <li><Link to="/gjestebok" onClick={() => setMenuOpen(false)}>Gjestebok</Link></li>
-                {user?.isMember && (
+                {hasAccess(user, ACCESS_REQUIREMENTS.events) && (
                     <>
-                        <li><Link to="/gallery/add" onClick={() => setMenuOpen(false)}>+ Bilde</Link></li>
                         <li><Link to="/arrangementer/add" onClick={() => setMenuOpen(false)}>+ Arrangement</Link></li>
+                    </>
+                )}
+                {hasAccess(user, ACCESS_REQUIREMENTS.quotes) && (
+                    <>
                         <li><Link to="/sitater/add" onClick={() => setMenuOpen(false)}>+ Sitat</Link></li>
                     </>
                 )}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { ACCESS_REQUIREMENTS, hasAccess } from '../../access-control';
 import '../css/form.css';
 
 const AddEvent = () => {
@@ -13,7 +14,7 @@ const AddEvent = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    if (!user?.isMember) {
+    if (!hasAccess(user, ACCESS_REQUIREMENTS.events)) {
         return (
             <div className="page-content">
                 <div className="error-message">

@@ -1,22 +1,48 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { ACCESS_REQUIREMENTS, hasAccess } from '../../access-control';
+import { getGallerySlug } from '../data/gallery';
+import type { GalleryAlbum } from '../types/types';
 import '../css/form.css';
 
 const AddPicture = () => {
     const [title, setTitle] = useState('');
     const [file, setFile] = useState<File | null>(null);
-    const [category, setCategory] = useState('general');
+    const [galleries, setGalleries] = useState<GalleryAlbum[]>([]);
+    const [selectedGallery, setSelectedGallery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
-    if (!user?.isMember) {
+    useEffect(() => {
+        const loadGalleries = async () => {
+            try {
+                const response = await fetch('/api/gallery', { credentials: 'include' });
+                if (!response.ok) {
+                    throw new Error('Kunne ikke hente gallerier');
+                }
+
+                const albums: GalleryAlbum[] = await response.json();
+                setGalleries(albums);
+                setSelectedGallery((current) => (
+                    current || searchParams.get('gallery') || albums[0]?.id || ''
+                ));
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Kunne ikke hente gallerier');
+            }
+        };
+
+        loadGalleries();
+    }, [searchParams]);
+
+    if (!hasAccess(user, ACCESS_REQUIREMENTS.galleryImages)) {
         return (
             <div className="page-content">
                 <div className="error-message">
-                    Du må være medlem for å legge til bilder. <a href="/login">Logg inn her</a>
+                    Du må være registrert for å legge til bilder. <a href="/login">Logg inn her</a>
                 </div>
             </div>
         );
@@ -35,7 +61,7 @@ const AddPicture = () => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('title', title);
-        formData.append('category', category);
+        formData.append('galleryId', selectedGallery);
 
         try {
             const response = await fetch('/api/gallery/upload', {
@@ -48,7 +74,8 @@ const AddPicture = () => {
                 throw new Error('Opplasting av bilde feilet');
             }
 
-            navigate('/gallery');
+            const selectedAlbum = galleries.find((gallery) => gallery.id === selectedGallery);
+            navigate(selectedAlbum ? `/gallery/${getGallerySlug(selectedAlbum)}` : '/gallery');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Noe gikk galt';
             setError(message);
@@ -62,43 +89,48 @@ const AddPicture = () => {
             <div className="form-container">
                 <h1>Legg til bilde</h1>
                 {error && <div className="error-message">{error}</div>}
-                <form onSubmit={handleSubmit} className="member-form">
-                    <div className="form-group">
-                        <label htmlFor="title">Bildetittel</label>
-                        <input
-                            id="title"
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="category">Kategori</label>
-                        <select
-                            id="category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                        >
-                            <option value="general">Generelt</option>
-                            <option value="events">Arrangementer</option>
-                            <option value="members">Medlemmer</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="file">Velg bilde</label>
-                        <input
-                            id="file"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => setFile(e.target.files?.[0] || null)}
-                            required
-                        />
-                    </div>
-                    <button type="submit" disabled={isLoading}>
-                        {isLoading ? 'Laster opp...' : 'Legg til bilde'}
-                    </button>
-                </form>
+                {galleries.length === 0 ? (
+                    <p>Opprett et galleri først. <Link to="/gallery/add">Opprett galleri</Link></p>
+                ) : (
+                    <form onSubmit={handleSubmit} className="member-form">
+                        <div className="form-group">
+                            <label htmlFor="gallery">Galleri</label>
+                            <select
+                                id="gallery"
+                                value={selectedGallery}
+                                onChange={(e) => setSelectedGallery(e.target.value)}
+                                required
+                            >
+                                {galleries.map((gallery) => (
+                                    <option key={gallery.id} value={gallery.id}>{gallery.title}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="title">Bildetittel</label>
+                            <input
+                                id="title"
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="file">Velg bilde</label>
+                            <input
+                                id="file"
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setFile(e.target.files?.[0] || null)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? 'Laster opp...' : 'Legg til bilde'}
+                        </button>
+                    </form>
+                )}
             </div>
         </div>
     );

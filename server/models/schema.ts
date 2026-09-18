@@ -5,8 +5,10 @@
  * Key Patterns:
  * - users:{username} - User account data
  * - sessions:{sessionId} - Session data for JWT tokens
+ * - gallery:albums - Set of gallery IDs
+ * - gallery:albums:{galleryId} - Gallery metadata
+ * - gallery:album:{galleryId}:images - Set of image IDs in a gallery
  * - gallery:images:{imageId} - Gallery image metadata
- * - gallery:categories - Set of image categories
  * - events:{eventId} - Event data
  * - events:list - Sorted set of all event IDs (sorted by date)
  * - quotes:{quoteId} - Quote data
@@ -72,6 +74,20 @@ export interface GalleryImageRedisData {
     height: number;
     size: number;
     description?: string;
+}
+
+/**
+ * GALLERY ALBUM DATA STRUCTURE
+ * Key: gallery:albums:{galleryId}
+ * Type: Hash
+ */
+export interface GalleryAlbumRedisData {
+    id: string;
+    slug: string;
+    title: string;
+    description: string;
+    createdBy: string;
+    createdAt: string;
 }
 
 /**

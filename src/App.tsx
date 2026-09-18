@@ -12,7 +12,9 @@ import Contact from './pages/contact';
 import Guestbook from './pages/guestbook';
 import Login from './pages/login';
 import Register from './pages/register';
+import AddGallery from './pages/add_gallery';
 import AddPicture from './pages/add_picture';
+import GalleryDetail from './pages/gallery_detail';
 import AddEvent from './pages/add_event';
 import AddQuote from './pages/add_quote';
 import NotFound from './pages/not_found';
@@ -25,7 +27,9 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gallery" element={<Gallery />} />
-        <Route path="/gallery/add" element={<AddPicture />} />
+        <Route path="/gallery/add" element={<AddGallery />} />
+        <Route path="/gallery/add-picture" element={<AddPicture />} />
+        <Route path="/gallery/:gallerySlug" element={<GalleryDetail />} />
         <Route path="/om-oss" element={<AboutUs />} />
         <Route path="/sitater" element={<Quotes />} />
         <Route path="/sitater/add" element={<AddQuote />} />
