@@ -23,7 +23,7 @@ const Navbar = () => {
             </button>
 
             <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-                <li><Link to="/" onClick={() => setMenuOpen(false)}>Hjem</Link></li>
+                <li><Link to="/siste-nytt" onClick={() => setMenuOpen(false)}>Siste nytt</Link></li>
                 <li><Link to="/om-oss" onClick={() => setMenuOpen(false)}>Om oss</Link></li>
                 <li><Link to="/gallery" onClick={() => setMenuOpen(false)}>Galleri</Link></li>
                 <li><Link to="/sitater" onClick={() => setMenuOpen(false)}>Sitater</Link></li>

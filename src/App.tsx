@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import Home from './pages/home';
+import LatestNews from './pages/latest_news';
 import Gallery from './components/gallery';
 import AboutUs from './components/about_us';
 import Quotes from './pages/quotes';
@@ -26,6 +27,7 @@ function AppContent() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/siste-nytt" element={<LatestNews />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/gallery/add" element={<AddGallery />} />
         <Route path="/gallery/add-picture" element={<AddPicture />} />

@@ -10,7 +10,7 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   { name: 'Abid Hussain Raja', title: 'Leder', img: '/images/linkedinbilder/Abid_Hussain_Raja.jpg', description: 'Holder retning på gruppen og sørger for at alle blir sett og hørt.' },
-  { name: 'Frederick Tallaksen', title: 'Medgrunnlegger', img: '/images/linkedinbilder/frederick.jpg', description: 'Var med på å starte gruppen og bygger videre på fellesskapet vårt.' },
+  { name: 'Frederick Dahlgren Nilsen', title: 'Medgrunnlegger', img: '/images/linkedinbilder/frederick.jpg', description: 'Var med på å starte gruppen og bygger videre på fellesskapet vårt.' },
   { name: 'Kim Andre Karlsen', title: 'IT-ansvarlig', img: '/images/linkedinbilder/kim.jpg', description: 'Holder de digitale løsningene våre i gang og gjør det enklere å holde kontakten.' },
   { name: 'Maren Paulsen', title: 'Arrangementskoordinator', img: '/images/linkedinbilder/maren.jpg', description: 'Planlegger samlinger og sørger for at det alltid skjer noe hyggelig.' },
   { name: 'Magnus Øgrey', title: 'Menighetskontakt', img: '/images/linkedinbilder/magnus.jpg', description: 'Bygger broer til menigheter og andre fellesskap vi deler troen med.' },
